@@ -1,0 +1,243 @@
+
+## ===================================================
+## Configuration File - Fri May  4 14:03:34 2018
+## ===================================================
+
+
+# Lower limit for the theta-square cut. Only used in MakeEA 
+# and vaStage5. Not used in vaStage6. Units are degrees^2. 
+# [def. 0] 
+ThetaSquareLower 0
+
+# Upper limit for the theta-square cut. Explicitly NOT used 
+# in vaStage6 (even though its listed in the cuts file 
+# produced by vaStage6). This cut can and should only be 
+# used with makeEA (makeEffectiveArea) and it will be used 
+# by default in vaStage5 where you probably want to set it 
+# large (the default value should be good enough) so that it 
+# is ineffectual. For Stage6 you should use the parameters 
+# associated with each background model: 
+# -RBM_SearchWindowSqCut (for RBM) and -S6A_RingSize (for 
+# Wobble/reflected area model). Note that when generating 
+# spectra in vaStage6 a check is made comparing the 
+# ThetaSquareUpper value used to generate the Effective Area 
+# File (with makeEA) and the value of S6A_RingSize used in 
+# the spectral analyis (which uses the reflected area 
+# model). Units for ThetaSquareUpper are degrees^2. [def. 
+# 129600] 
+ThetaSquareUpper 129600
+
+# Lower limit for the Impact Distance. Units are m. [def. 0] 
+ImpactDistanceLower 0
+
+# Upper limit for the Impact Distance. Units are m. [def. 
+# 1200] 
+ImpactDistanceUpper 1200
+
+# Lower limit for the Mean Scaled Width. Units are 
+# arbitrary. [def. 0] 
+MeanScaledWidthLower 0
+
+# Upper limit for the Mean Scaled Width. Units are 
+# arbitrary. [def. 10] 
+MeanScaledWidthUpper 10
+
+# Currently Unused. Lower limit for the Standard Deviation 
+# of the Mean Scaled Width. Units are arbitrary. [def. 0] 
+MeanScaledWidthSigmaLower 0
+
+# Currently Unused. Upper limit for the Standard Deviation 
+# of the Mean Scaled Width. Units are arbitrary. [def. 10] 
+MeanScaledWidthSigmaUpper 10
+
+# Lower limit for the Mean Scaled Length. Units are 
+# arbitrary. [def. 0] 
+MeanScaledLengthLower 0
+
+# Upper limit for the Mean Scaled Length. Units are 
+# arbitrary. [def. 10] 
+MeanScaledLengthUpper 10
+
+# Currently Unused. Lower limit for the Standard Deviation 
+# of the Mean Scaled Length. Units are arbitrary. [def. 0] 
+MeanScaledLengthSigmaLower 0
+
+# Currently Unused. Upper limit for the Standard Deviation 
+# of the Mean Scaled Length. Units are arbitrary. [def. 10] 
+MeanScaledLengthSigmaUpper 10
+
+# Lower limit for the Mean Reduced Scaled Width. Units are 
+# arbitrary. [def. -10] 
+MeanReducedScaledWidthLower -10
+
+# Upper limit for the Mean Reduced Scaled Width. Units are 
+# arbitrary. [def. 10] 
+MeanReducedScaledWidthUpper 10
+
+# Currently Unused. Lower limit for the Standard Deviation 
+# of the Mean Reduced Scaled Width. Units are arbitrary. 
+# [def. 0] 
+MeanReducedScaledWidthSigmaLower 0
+
+# Currently Unused. Upper limit for the Standard Deviation 
+# of the Mean Reduced Scaled Width. Units are arbitrary. 
+# [def. 10] 
+MeanReducedScaledWidthSigmaUpper 10
+
+# Lower limit for the Mean Reduced Scaled Length. Units are 
+# arbitrary. [def. -10] 
+MeanReducedScaledLengthLower -10
+
+# Upper limit for the Mean Reduced Scaled Length. Units are 
+# arbitrary. [def. 10] 
+MeanReducedScaledLengthUpper 10
+
+# Currently Unused. Lower limit for the Standard Deviation 
+# of the Mean Reduced Scaled Length. Units are arbitrary. 
+# [def. 0] 
+MeanReducedScaledLengthSigmaLower 0
+
+# Currently Unused. Upper limit for the Standard Deviation 
+# of the Mean Reduced Scaled Length. Units are arbitrary. 
+# [def. 10] 
+MeanReducedScaledLengthSigmaUpper 10
+
+# Lower limit for the Shower Maximum. Units are km. [def. 
+# -100] 
+MaxHeightLower -100
+
+# Upper limit for the Shower Maximum. Units are km. [def. 
+# 100] 
+MaxHeightUpper 100
+
+# Currently Unused. Lower limit for the Standard Deviation 
+# of the Shower Maximum. Units are km. [def. -100] 
+MaxHeightSigmaLower -100
+
+# Currently Unused. Upper limit for the Standard Deviation 
+# of the Shower Maximum. Units are km. [def. 100] 
+MaxHeightSigmaUpper 100
+
+# Lower limit for the Energy. Units are GeV. [def. 0] 
+EnergyLower 0
+
+# Upper limit for the Energy. Units are GeV. [def. 100000] 
+EnergyUpper 100000
+
+# Currently Unused. Lower limit for the Standard Deviation 
+# of the Energy. Units are TeV. [def. 0] 
+EnergySigmaLower 0
+
+# Currently Unused. Upper limit for the Standard Deviation 
+# of the Energy. Units are TeV. [def. 10] 
+EnergySigmaUpper 10
+
+# Lower limit for the Standard Deviation on the Direction. 
+# [def. 0] 
+StdDirectionLower 0
+
+# Upper limit for the Standard Deviation on the Direction. 
+# [def. 10] 
+StdDirectionUpper 10
+
+# Lower limit for the Standard Deviation on the Core 
+# Position. Units are m. [def. -500] 
+StdCorePositionLower -500
+
+# Upper limit for the Standard Deviation on the Core 
+# Position. Units are m. [def. 500] 
+StdCorePositionUpper 500
+
+# Lower limit for the BDT Score of an individual I-th Zenith 
+# J-th Energy BDT bin. I and J start from 0. 
+BDTScoreLowerIJ -2
+BDTScoreLower00 -2                    # 
+BDTScoreLower01 -2                    # 
+BDTScoreLower02 -2                    # 
+BDTScoreLower03 -2                    # 
+BDTScoreLower04 -2                    # 
+BDTScoreLower10 -2                    # 
+BDTScoreLower11 -2                    # 
+BDTScoreLower12 -2                    # 
+BDTScoreLower13 -2                    # 
+BDTScoreLower14 -2                    # 
+BDTScoreLower20 -2                    # 
+BDTScoreLower21 -2                    # 
+BDTScoreLower22 -2                    # 
+BDTScoreLower23 -2                    # 
+BDTScoreLower24 -2                    # 
+BDTScoreLower30 -2                    # 
+BDTScoreLower31 -2                    # 
+BDTScoreLower32 -2                    # 
+BDTScoreLower33 -2                    # 
+BDTScoreLower34 -2                    # 
+BDTScoreLower40 -2                    # 
+BDTScoreLower41 -2                    # 
+BDTScoreLower42 -2                    # 
+BDTScoreLower43 -2                    # 
+BDTScoreLower44 -2                    # 
+
+# Lower limit for the BDT score for all BDT bins that don't 
+# have an individual cut specified. Ranges from -1 to 1. 
+# [def. -2 to ensure that if it is unused, it is obvious] 
+BDTScoreLower -2
+
+# Lower limit for the signal to background resolving 
+# statistic that is output by direction reconstruction (e.g. 
+# disp-diff) [def. -100000] 
+DirRecSignalStatisticLower -100000
+
+# Upper limit for the signal to background resolving 
+# statistic that is output by direction reconstruction (e.g. 
+# disp-diff) [def. 100000] 
+DirRecSignalStatisticUpper 100000
+
+# Lower limit for the angular distance from the camera 
+# centre to the reconstructed event arrival direction. Do 
+# NOT use this cut with vaStage6 unless you know what you 
+# are doing! It is not appropriate when background 
+# estimation is an issue! Use parameters associated with 
+# each background model instead. This cut can be used with 
+# makeEffectiveArea, however. Units are degrees. [def. 
+# -100000] 
+FoVCutLower -100000
+
+# Upper limit for the angular distance from the camera 
+# centre to the reconstructed event arrival direction. Do 
+# NOT use this cut with vaStage6 unless you know what you 
+# are doing! It is not appropriate when background 
+# estimation is an issue! Use parameters associated with 
+# each background model instead. This cut can, and SHOULD be 
+# used with makeEffectiveArea, however. Units are degrees. 
+# [def. 100000] 
+FoVCutUpper 100000
+
+# Lower limit for the theta-square cut. Only used in MakeEA 
+# and vaStage5, not used in vaStage6. Units are degrees^2. 
+# [def. 0] 
+Model3DThetaSquareLower 0
+
+# Upper limit for the theta-square cut. Explicitly NOT used 
+# in vaStage6 (even though its listed in the cuts file 
+# produced by vaStage6; see the warning for Stereo version). 
+Model3DThetaSquareUpper 129600
+
+# Lower limit for the Model3D Reduced Width. [def. 0] 
+Model3DReducedWidthLower 0
+
+# Upper limit for the Model3D Reduced Width. [def. 1] 
+Model3DReducedWidthUpper 1
+
+# Lower limit for the Barycenter Distance. Units are m. 
+# [def. 0] 
+Model3DBarycenterDistLower 0
+
+# Upper limit for the Barycenter Distance. Units are m. 
+# [def. 100000] 
+Model3DBarycenterDistUpper 100000
+
+# Lower limit for the Goodness of Fit. [def. 0] 
+Model3DGoodnessOfFitLower 0
+
+# Upper limit for the Goodness of Fit. [def. 100000] 
+Model3DGoodnessOfFitUpper 100000

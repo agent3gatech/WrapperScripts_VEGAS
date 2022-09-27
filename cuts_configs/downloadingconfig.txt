@@ -1,0 +1,209 @@
+# /gpfs/pace1/project/phy-otte/agent3/MMF/MakeMeFamous.sh 
+
+#First specify the directory where you will put all the config and cuts files for stage2, 4, 5
+#Note you will still specify the absolute path where the runlist is located
+
+CONFIGANDCUTSDIR=replace/cuts_configs/
+
+##################################################################
+# Do you want to process MC or DATA?
+#################################################################
+
+# true or false
+MC=false
+
+# if CARE was used to simulate the Camera and readout out set to "true"
+# sete to something else if CARE was not used,e.g. "false" 
+MC_CARE=false
+
+#################################################################
+# create a runlist
+#################################################################
+
+#Want to create a runlist? -> set to true, otherwise false or anything else
+CREATERUNLIST=false
+
+#Name of the source
+#Does it matter???
+SOURCENAME=Crab
+
+#First night to look for data, format YYYYMMDD
+DAYSTART=20170901
+
+#Last night to look for data, format YYYYMMDD
+DAYSTOP=20190901
+
+#Minimum elevation angle
+MINELEVATION=0
+
+#Maximum elevation angle
+MAXELEVATION=90
+
+#file with all the runs to analyse (data runs only, laser runs will be picked automatically),
+# specify with absolute path
+RUNLIST=replace/runlist.txt
+
+
+#MC instructions
+#this does not work for MC. For MC you have to create your runlist by hand
+#format all filenames without path and file ending (.vfb)
+MCRUNLIST=/nv/hp11/aotte6/VERITAS/ProductionSimsUpgrade/ProduceLT/runlist_MCTestNew.txt
+
+#Grisu
+#MCRUNLIST=/home/vhep/nepomuk/VERITAS/analysis/Crab/CARESims/mcrunlist_from_scratch.txt
+
+
+##########################################################################
+# data downloading
+#########################################################################
+
+#Want to download the data? go ahead set DOWNLOAD=true, For this you have to execute this script as chow on vhe0
+DOWNLOAD=true
+##########################################################################
+# stage 1 and 2:
+# require CALIBRATEDDATADIR and RUNLIST and DOSTAGE12 below set to true
+#########################################################################
+
+#Want to do stage 1 and 2 -> set to true, otherwise false or anything else
+DOSTAGE12=false
+
+#Want to delete the old stage1/2 output?
+DELETEOLDSTAGE12=false
+
+#Stage2 config file
+STAGE2CONFIGFILE=stage2.cfg
+
+#Stage1 config file
+STAGE1CONFIGFILE=stage1.cfg
+
+
+#needed for stage 1_2 and stage 4_5
+#if you want to process MC in your analysis you do not need to specify a dedicated MC directory
+#the script will create a subdirectory named MC in the below stated directory
+#needed for stage 1_2 and stage 4_5
+CALIBRATEDDATADIR=/gpfs/pace1/project/phy-otte/VERITAS/calibdatai/66Whatever99
+
+# if you want to analyze MC specify the directory where the .vbf files are
+# note that the scripts expect that in this directory also the pedestal 
+# and noise file can be found in subdirectories 
+# "pedestals/pedestalFiles" and "pedestals/noiseLibraries", respectively
+# for an example what is meant by this checkout /veritas_data/mc/StdTrigger/gammas/VBF/nonoise/
+# If you want to calibrate on the machine where the MC is stored give the /vhXY directory
+MCDIRRAW=/nv/hp11/aotte6/VERITAS/ProductionSimsUpgrade/ProduceLT/simsraw/
+
+# what noise level for the MC?
+# instructions what this is: 
+# http://veritas.sao.arizona.edu/OAWGwiki/index.php/ShowerRecon2_LookupTables#Noise_Units
+MCNOISELVL=CARE
+
+#CARE
+
+#100%150%200%250%300
+
+#100%150%200%250%300%350%400%490%605%730%870
+
+#########################################################################
+# beyond here stage 4 and stage 5 configurations.
+# requires input directory CALIBRATEDDATADIR and RUNLIST and all below
+# Stage4/5 and 6 can be executed up to three times
+
+#########################################################################
+# STAGE 4/5 RUN1
+##########################################################################
+
+#Want to do stage 4 and 5 -> set to true, otherwise false or anything else
+DOSTAGE45RUN1=false
+
+#Want to delete the old stage4/5 output?
+DELETEOLDSTAGE45RUN1=false
+
+#Lower Size cut applied in stage4
+SIZELOWERRUN1=400
+
+#Upper Size cut applied in stage4
+SIZEUPPERRUN1=1e6
+
+#Cut away periods that are flagged bad in the database
+CUTBADTIMESRUN1=true
+
+#Output directory of Stage4 and 5
+STAGE45DATADIRRUN1=replace/stage45
+
+#Configuration and cuts file for stage 4 and 5
+STAGE4CUTSFILERUN1=stage4.cuts
+STAGE4CONFIGFILERUN1=stage4.cfg
+
+#configuration and cuts file for stage 5 (NOT BEING USED)
+STAGE5CUTSFILERUN1=stage5.cuts
+STAGE5CONFIGFILERUN1=stage5.cfg
+
+# ATM 21 Lookuptable SPECIFY HERE
+LOOKUPTABLERUN1=lt_Oct2012_ua_ATM21_7samples_vegasv250rc5_allOffsets_LZA_noise150fix.root 
+
+
+#Diretory where lookuptable is stored
+LOOKUPTABLEDIRRUN1=/gpfs/pace1/project/phy-otte/VERITAS/lookuptables
+
+################################################################
+#And Stage6
+#It takes the stage45 output files that are in the directory
+#specified above in STAGE45DATADIR above
+################################################################
+
+#Do you want to run stage6
+DOSTAGE6RUN1=false
+
+#Want to delete the old stage6 output?
+DELETEOLDSTAGE6RUN1=false
+
+#Configuration and cuts file for stage 6
+STAGE6CUTSFILERUN1=stage6.cuts
+STAGE6CONFIGFILERUN1=stage6.cfg
+
+#Where the output goes to
+STAGE6DATADIRRUN1=replace/stage6
+
+#How to distinguish this stage6 run from the others
+STAGE6OUTNAMERUN1=Test
+
+#Cuts applied at stage6
+#Upper cut on Mean Scaled Width
+MSWRUN1=1.10
+
+#Upper cut on Mean Scaled Length
+MSLRUN1=1.30
+
+#Lower Cut on the Shower Maximum
+SHOWERMAXRUN1=7.0
+
+
+#Upper Cut on the Theta Sqr, used to define on source regions.
+THETASQRRUN1=0.030
+
+#Effective area file. If you do not need one just write "dummy"
+#EAFILERUN1=dummy
+EAFILERUN1=/gpfs/pace1/project/phy-otte/VERITAS/effective_areas/ea_Oct2012_ua_ATM21_7samples_vegasv250rc4_050wobb_std_soft_loose_1crab_LZA.root
+
+##########################################################################################################
+# END RUN1
+#########################################################################################################
+
+################################################################
+#Definitions of which versions to use etc.
+#most likely no need to change anything beyond this point
+################################################################
+
+#needed for stage1_2 base directory of the raw data (Hardwired in the download script)
+VERITASDATABASEDIR=/gpfs/pace1/project/phy-otte/VERITAS/raw_data
+
+#define the scratch directory
+SCRATCH=/gpfs/scratch1/7/agent3/
+#define the queue to run the analysis on
+QUEUE=cygnuspa-6
+
+#Defines the root and veritas versions to use in the analysis
+ROOT=root/6.08.06
+VEGASBASE=/gpfs/pace2/project/pc1/aotte6/analysistools/VERITAS/vegas-v256/vegas-v2-05-06
+DBSERVER=romulus.ucsc.edu
+SCRIPTDIR=/gpfs/pace1/project/phy-otte/agent3/MMF
+BOXCUTTYPE=SOFT

@@ -1,0 +1,564 @@
+#!/bin/bash
+
+####################################################
+# Master script that executes all VEGAS stages
+# requires input file with all the necessary configurations
+###########################################################
+
+CONFIGFILE=$1
+
+#remove empty lines and lines beginning with # in the configfile
+OPTIONS=( `sed '/^$/d' ${CONFIGFILE} | sed '/^\#/d'` )
+
+#reading in all the options
+for ((i=0;i<${#OPTIONS[@]};i++)); do
+
+NAME=`echo ${OPTIONS[$i]} | cut -d = -f 1` 
+PARAMETER=`echo ${OPTIONS[$i]} | cut -d = -f 2` 
+
+#echo "${NAME} ${PARAMETER}"
+
+case ${NAME} in 
+
+ "CONFIGANDCUTSDIR") CONFIGANDCUTSDIR=${PARAMETER}  ;;
+
+ "CREATERUNLIST") CREATERUNLIST=${PARAMETER}  ;;
+
+ "SOURCENAME") SOURCENAME=${PARAMETER}  ;;
+
+ "DAYSTART") DAYSTART=${PARAMETER}  ;;
+
+ "DAYSTOP") DAYSTOP=${PARAMETER}  ;;
+
+ "MINELEVATION") MINELEVATION=${PARAMETER}  ;;
+
+ "MAXELEVATION") MAXELEVATION=${PARAMETER}  ;;
+
+ "RUNLIST") RUNLIST=${PARAMETER}  ;;
+
+ "DOWNLOAD") DOWNLOAD=${PARAMETER}  ;;
+
+ "CALIBRATEDDATADIR") CALIBRATEDDATADIR=${PARAMETER}  ;;
+
+ "DOSTAGE12") DOSTAGE12=${PARAMETER}  ;;
+
+ "DELETEOLDSTAGE12") DELETEOLDSTAGE12=${PARAMETER} ;;
+
+ "STAGE1CONFIGFILE") STAGE1CONFIGFILE=${PARAMETER} ;;
+
+ "STAGE2CONFIGFILE") STAGE2CONFIGFILE=${PARAMETER} ;;
+
+ "QUEUE")  QUEUE=${PARAMETER} ;;
+
+ "SCRATCH")  SCRATCH=${PARAMETER} ;;
+
+ "ROOTSYS")  ROOTSYS=${PARAMETER} ;;
+
+ "VEGASBASE") VEGASBASE=${PARAMETER} ;;
+
+ "DBSERVER") DBSERVER=${PARAMETER} ;;
+
+ "SCRIPTDIR") SCRIPTDIR=${PARAMETER};;
+
+ "VERITASDATABASEDIR") VERITASDATABASEDIR=${PARAMETER} ;;
+
+ "DOSTAGE45RUN1")  DOSTAGE45RUN1=${PARAMETER} ;;
+
+ "STAGE45DATADIRRUN1") STAGE45DATADIRRUN1=${PARAMETER} ;;
+
+ "SIZELOWERRUN1") SIZELOWERRUN1=${PARAMETER} ;;
+
+ "SIZEUPPERRUN1") SIZEUPPERRUN1=${PARAMETER} ;;
+
+ "STAGE4CUTSFILERUN1") STAGE4CUTSFILERUN1=${PARAMETER} ;;
+
+ "STAGE4CONFIGFILERUN1") STAGE4CONFIGFILERUN1=${PARAMETER} ;;
+
+ "LOOKUPTABLERUN1") LOOKUPTABLERUN1=${PARAMETER} ;;
+
+ "LOOKUPTABLEDIRRUN1") LOOKUPTABLEDIRRUN1=${PARAMETER} ;;
+
+ "STAGE5CUTSFILERUN1") STAGE5CUTSFILERUN1=${PARAMETER} ;;
+
+ "STAGE5CONFIGFILERUN1") STAGE5CONFIGFILERUN1=${PARAMETER} ;;
+
+ "DELETEOLDSTAGE45RUN1") DELETEOLDSTAGE45RUN1=${PARAMETER} ;;
+
+ "CUTBADTIMESRUN1") CUTBADTIMESRUN1=${PARAMETER} ;;
+
+ "DOSTAGE6RUN1")  DOSTAGE6RUN1=${PARAMETER} ;; 
+
+ "DELETEOLDSTAGE6RUN1") DELETEOLDSTAGE6RUN1=${PARAMETER} ;;
+
+ "STAGE6CUTSFILERUN1") STAGE6CUTSFILERUN1=${PARAMETER} ;;
+
+ "STAGE6CONFIGFILERUN1") STAGE6CONFIGFILERUN1=${PARAMETER} ;;
+     
+ "STAGE6DATADIRRUN1") STAGE6DATADIRRUN1=${PARAMETER} ;;
+
+ "STAGE6OUTNAMERUN1") STAGE6OUTNAMERUN1=${PARAMETER} ;;
+
+ "MSWRUN1") MSWRUN1=${PARAMETER} ;;
+
+ "MSLRUN1") MSLRUN1=${PARAMETER} ;;
+
+ "SHOWERMAXRUN1") SHOWERMAXRUN1=${PARAMETER} ;;
+
+ "THETASQRRUN1") THETASQRRUN1=${PARAMETER} ;;
+ 
+ "EAFILERUN1") EAFILERUN1=${PARAMETER} ;;
+
+ "DOSTAGE45RUN2")  DOSTAGE45RUN2=${PARAMETER} ;;
+
+ "STAGE45DATADIRRUN2") STAGE45DATADIRRUN2=${PARAMETER} ;;
+
+ "SIZELOWERRUN2") SIZELOWERRUN2=${PARAMETER} ;;
+
+ "SIZEUPPERRUN2") SIZEUPPERRUN2=${PARAMETER} ;;
+
+ "STAGE4CUTSFILERUN2") STAGE4CUTSFILERUN2=${PARAMETER} ;;
+
+ "STAGE4CONFIGFILERUN2") STAGE4CONFIGFILERUN2=${PARAMETER} ;;
+
+ "LOOKUPTABLERUN2") LOOKUPTABLERUN2=${PARAMETER} ;;
+
+ "LOOKUPTABLEDIRRUN2") LOOKUPTABLEDIRRUN2=${PARAMETER} ;;
+
+ "STAGE5CUTSFILERUN2") STAGE5CUTSFILERUN2=${PARAMETER} ;;
+
+ "STAGE5CONFIGFILERUN2") STAGE5CONFIGFILERUN2=${PARAMETER} ;;
+
+ "DELETEOLDSTAGE45RUN2") DELETEOLDSTAGE45RUN2=${PARAMETER} ;;
+
+ "CUTBADTIMESRUN2") CUTBADTIMESRUN2=${PARAMETER} ;;
+
+ "DOSTAGE6RUN2")  DOSTAGE6RUN2=${PARAMETER} ;; 
+
+ "DELETEOLDSTAGE6RUN2") DELETEOLDSTAGE6RUN2=${PARAMETER} ;;
+
+ "STAGE6CUTSFILERUN2") STAGE6CUTSFILERUN2=${PARAMETER} ;;
+
+ "STAGE6CONFIGFILERUN2") STAGE6CONFIGFILERUN2=${PARAMETER} ;;
+     
+ "STAGE6DATADIRRUN2") STAGE6DATADIRRUN2=${PARAMETER} ;;
+
+ "STAGE6OUTNAMERUN2") STAGE6OUTNAMERUN2=${PARAMETER} ;;
+
+ "MSWRUN2") MSWRUN2=${PARAMETER} ;;
+
+ "MSLRUN2") MSLRUN2=${PARAMETER} ;;
+
+ "SHOWERMAXRUN2") SHOWERMAXRUN2=${PARAMETER} ;;
+
+ "THETASQRRUN2") THETASQRRUN2=${PARAMETER} ;;
+
+ "EAFILERUN2") EAFILERUN2=${PARAMETER} ;;
+
+ "DOSTAGE45RUN3")  DOSTAGE45RUN3=${PARAMETER} ;;
+
+ "STAGE45DATADIRRUN3") STAGE45DATADIRRUN3=${PARAMETER} ;;
+
+ "SIZELOWERRUN3") SIZELOWERRUN3=${PARAMETER} ;;
+
+ "SIZEUPPERRUN3") SIZEUPPERRUN3=${PARAMETER} ;;
+
+ "STAGE4CUTSFILERUN3") STAGE4CUTSFILERUN3=${PARAMETER} ;;
+
+ "STAGE4CONFIGFILERUN3") STAGE4CONFIGFILERUN3=${PARAMETER} ;;
+
+ "LOOKUPTABLERUN3") LOOKUPTABLERUN3=${PARAMETER} ;;
+
+ "LOOKUPTABLEDIRRUN3") LOOKUPTABLEDIRRUN3=${PARAMETER} ;;
+
+ "STAGE5CUTSFILERUN3") STAGE5CUTSFILERUN3=${PARAMETER} ;;
+
+ "STAGE5CONFIGFILERUN3") STAGE5CONFIGFILERUN3=${PARAMETER} ;;
+
+ "DELETEOLDSTAGE45RUN3") DELETEOLDSTAGE45RUN3=${PARAMETER} ;;
+
+ "CUTBADTIMESRUN3") CUTBADTIMESRUN3=${PARAMETER} ;;
+
+ "DOSTAGE6RUN3")  DOSTAGE6RUN3=${PARAMETER} ;; 
+
+ "DELETEOLDSTAGE6RUN3") DELETEOLDSTAGE6RUN3=${PARAMETER} ;;
+
+ "STAGE6CUTSFILERUN3") STAGE6CUTSFILERUN3=${PARAMETER} ;;
+
+ "STAGE6CONFIGFILERUN3") STAGE6CONFIGFILERUN3=${PARAMETER} ;;
+     
+ "STAGE6DATADIRRUN3") STAGE6DATADIRRUN3=${PARAMETER} ;;
+
+ "STAGE6OUTNAMERUN3") STAGE6OUTNAMERUN3=${PARAMETER} ;;
+
+ "MSWRUN3") MSWRUN3=${PARAMETER} ;;
+
+ "MSLRUN3") MSLRUN3=${PARAMETER} ;;
+
+ "SHOWERMAXRUN3") SHOWERMAXRUN3=${PARAMETER} ;;
+
+ "THETASQRRUN3") THETASQRRUN3=${PARAMETER} ;;
+
+ "EAFILERUN3") EAFILERUN3=${PARAMETER} ;;
+
+ "MC") MC=${PARAMETER} ;;
+
+ "MC_CARE") MC_CARE=${PARAMETER} ;;
+
+ "MCDIRRAW") MCDIRRAW=${PARAMETER} ;;
+
+ "MCNOISELVL") MCNOISELVL=${PARAMETER} ;;
+
+ "MCRUNLIST") MCRUNLIST=${PARAMETER} ;;
+
+
+          *) echo -e "\033[31m Boy, boy, you screwed it once more. What is ${NAME}?\033[m";;
+esac
+
+done
+
+#####################################################
+#####################################################
+
+#create a runlist
+
+#####################################################
+
+if [ "${CREATERUNLIST}" = "true" ]; then
+
+  echo "Will create a runlist for data taken between ${DAYSTART} and ${DAYSTOP} on ${SOURCENAME}"
+  echo "Minimum elevation ${MINELEVATION} and maximum elevation ${MAXELEVATION}"
+  echo "runlist will be written to file ${RUNLIST}:
+        "
+
+  ${SCRIPTDIR}/create_runlist.sh ${SOURCENAME} ${DAYSTART} ${DAYSTOP} ${MINELEVATION} ${MAXELEVATION} ${RUNLIST}
+
+echo""
+fi
+
+#####################################################
+#####################################################
+
+#download the data
+
+#####################################################
+
+if [ "${DOWNLOAD}" = "true" ]; then
+
+  echo "Will download the data runs listed in ${RUNLIST}:
+        "
+
+  ${SCRIPTDIR}/download.sh ${RUNLIST}
+
+echo""
+fi
+
+####################################################
+####################################################
+
+#Run stage 1 and 2
+
+####################################################
+
+if [ "${DOSTAGE12}" = "true" ]; then
+
+  echo "Will execute stage1 and stage2 with the following parameters:"
+  echo "        RUNLIST=${RUNLIST} 
+        CALIBRATEDDATADIR=${CALIBRATEDDATADIR} 
+        QUEUE=${QUEUE}
+        SCRATCH=${SCRATCH}
+        ROOTSYS=${ROOTSYS} 
+        VEGASBASE=${VEGASBASE} 
+        VERITASDATABASEDIR=${VERITASDATABASEDIR}
+        CONFIGANDCUTSDIR=${CONFIGANDCUTSDIR}
+        STAGE1CONFIGFILE=${STAGE1CONFIGFILE}
+        STAGE2CONFIGFILE=${STAGE2CONFIGFILE}
+        DBSERVER=${DBSERVER}
+        DELETEOLDSTAGE12=${DELETEOLDSTAGE12}
+        MC=${MC}
+        MC_CARE=${MC_CARE}
+        MCDIRRAW=${MCDIRRAW} 
+        MCNOISELVL=${MCNOISELVL} 
+        MCRUNLIST=${MCRUNLIST}
+        "
+  if [[ "${DELETEOLDSTAGE12}" == "true" && ! "${MC}" = "true" ]]; then
+      echo "deleting maybe existing stage1/2 output, may take a while ... "
+      rm -r ${CALIBRATEDDATADIR}/d*
+  elif [[ "${DELETEOLDSTAGE12}" == "true" && "${MC}" = "true" ]]; then
+      echo "deleting maybe existing stage1/2 output, may take a while ... "
+      rm -r ${CALIBRATEDDATADIR}/MC/*
+  fi
+
+
+
+  ${SCRIPTDIR}/prepare_stage1_2.sh ${RUNLIST}  ${CALIBRATEDDATADIR} ${CONFIGANDCUTSDIR}/${STAGE1CONFIGFILE} ${CONFIGANDCUTSDIR}/${STAGE2CONFIGFILE}  ${SCRATCH} ${QUEUE} ${ROOTSYS} ${VEGASBASE} ${VERITASDATABASEDIR} ${SCRIPTDIR} ${DBSERVER} ${MC} ${MC_CARE} ${MCDIRRAW} ${MCNOISELVL} ${MCRUNLIST}
+
+fi
+
+####################################################
+####################################################
+
+#Run stage 4 and 5 RUN1
+
+####################################################
+
+if [ "${DOSTAGE45RUN1}" = "true" ]; then
+
+  echo "Will execute stage4 and stage5 with the following parameters:"
+  echo "        RUNLIST=${RUNLIST} 
+        CALIBRATEDDATADIR=${CALIBRATEDDATADIR} 
+        STAGE45DATADIRRUN1 =${STAGE45DATADIRRUN1} 
+        SIZELOWERRUN1=${SIZELOWERRUN1} 
+        SIZEUPPERRUN1=${SIZEUPPERRUN1} 
+        CONFIGANDCUTSDIR=${CONFIGANDCUTSDIR}
+        STAGE4CUTSFILERUN1=${STAGE4CUTSFILERUN1} 
+        STAGE4CONFIGFILERUN1=${STAGE4CONFIGFILERUN1} 
+        LOOKUPTABLERUN1=${LOOKUPTABLERUN1} 
+        LOOKUPTABLEDIRRUN1=${LOOKUPTABLEDIRRUN1} 
+        STAGE5CUTSFILERUN1=${STAGE5CUTSFILERUN1} 
+        STAGE5CONFIGFILERUN1=${STAGE5CONFIGFILERUN1}
+        QUEUE=${QUEUE}
+        SCRATCH=${SCRATCH}
+        ROOTSYS=${ROOTSYS} 
+        VEGASBASE=${VEGASBASE}
+        DBSERVER=${DBSERVER}
+        DELETEOLDSTAGE45RUN1=${DELETEOLDSTAGE45RUN1}
+        CUTBADTIMESRUN1=${CUTBADTIMESRUN1}
+        MC=${MC} 
+        MCNOISELVL=${MCNOISELVL} 
+        MCRUNLIST=${MCRUNLIST}
+        "
+
+  if [[ "${DELETEOLDSTAGE45RUN1}" == "true"  && ! "${MC}" == "true" ]]; then
+      echo "deleting maybe existing stage4/5 output, may take a while ... "
+      rm -r ${STAGE45DATADIRRUN1}/d*                                                                                                                         
+  elif [[ "${DELETEOLDSTAGE45RUN1}" == "true" && "${MC}" == "true" ]]; then
+      echo "deleting maybe existing stage4/5 output, may take a while ... "
+      rm -r ${STAGE45DATADIRRUN1}/MC/*
+  fi
+
+  ${SCRIPTDIR}/prepare_stage4_5.sh ${RUNLIST} ${CALIBRATEDDATADIR} ${STAGE45DATADIRRUN1} ${SIZELOWERRUN1} ${SIZEUPPERRUN1} ${CONFIGANDCUTSDIR}/${STAGE4CUTSFILERUN1} ${CONFIGANDCUTSDIR}/${STAGE4CONFIGFILERUN1} ${LOOKUPTABLERUN1} ${LOOKUPTABLEDIRRUN1} ${CONFIGANDCUTSDIR}/${STAGE5CUTSFILERUN1} ${CONFIGANDCUTSDIR}/${STAGE5CONFIGFILERUN1} ${SCRATCH} ${QUEUE} ${ROOTSYS} ${VEGASBASE} ${DBSERVER} ${SCRIPTDIR} ${CUTBADTIMESRUN1} ${MC} ${MCNOISELVL} ${MCRUNLIST}
+
+  fi
+
+
+####################################################
+####################################################
+
+#Run stage 4 and 5 RUN2
+
+####################################################
+
+if [ "${DOSTAGE45RUN2}" = "true" ]; then
+
+  echo "Will execute stage4 and stage5 with the following parameters:"
+  echo "        RUNLIST=${RUNLIST} 
+        CALIBRATEDDATADIR=${CALIBRATEDDATADIR} 
+        STAGE45DATADIRRUN2 =${STAGE45DATADIRRUN2} 
+        SIZELOWERRUN2=${SIZELOWERRUN2} 
+        SIZEUPPERRUN2=${SIZEUPPERRUN2} 
+        CONFIGANDCUTSDIR=${CONFIGANDCUTSDIR}
+        STAGE4CUTSFILERUN2=${STAGE4CUTSFILERUN2} 
+        STAGE4CONFIGFILERUN2=${STAGE4CONFIGFILERUN2} 
+        LOOKUPTABLERUN2=${LOOKUPTABLERUN2} 
+        LOOKUPTABLEDIRRUN2=${LOOKUPTABLEDIRRUN2} 
+        STAGE5CUTSFILERUN2=${STAGE5CUTSFILERUN2} 
+        STAGE5CONFIGFILERUN2=${STAGE5CONFIGFILERUN2}
+        QUEUE=${QUEUE}
+        SCRATCH=${SCRATCH}
+        ROOTSYS=${ROOTSYS} 
+        VEGASBASE=${VEGASBASE}
+        DBSERVER=${DBSERVER}
+        DELETEOLDSTAGE45RUN2=${DELETEOLDSTAGE45RUN2}
+		CUTBADTIMESRUN2=${CUTBADTIMESRUN2}
+        MC=${MC} 
+        MCNOISELVL=${MCNOISELVL} 
+        MCRUNLIST=${MCRUNLIST}
+        "
+
+  if [[ "${DELETEOLDSTAGE45RUN2}" == "true"  && ! "${MC}" == "true" ]]; then
+      echo "deleting maybe existing stage4/5 output, may take a while ... "
+      rm -r ${STAGE45DATADIRRUN2}/d*
+  elif [[ "${DELETEOLDSTAGE45RUN2}" == "true" && "${MC}" == "true" ]]; then
+      echo "deleting maybe existing stage4/5 output, may take a while ... "
+      rm -r ${STAGE45DATADIRRUN2}/MC/*
+  fi
+
+ 
+  
+
+  ${SCRIPTDIR}/prepare_stage4_5.sh ${RUNLIST} ${CALIBRATEDDATADIR} ${STAGE45DATADIRRUN2} ${SIZELOWERRUN2} ${SIZEUPPERRUN2} ${CONFIGANDCUTSDIR}/${STAGE4CUTSFILERUN2} ${CONFIGANDCUTSDIR}/${STAGE4CONFIGFILERUN2} ${LOOKUPTABLERUN2} ${LOOKUPTABLEDIRRUN2} ${CONFIGANDCUTSDIR}/${STAGE5CUTSFILERUN2} ${CONFIGANDCUTSDIR}/${STAGE5CONFIGFILERUN2}  ${SCRATCH} ${QUEUE} ${ROOTSYS} ${VEGASBASE} ${DBSERVER} ${SCRIPTDIR} ${CUTBADTIMESRUN2} ${MC} ${MCNOISELVL} ${MCRUNLIST}
+
+fi
+
+####################################################
+####################################################
+####################################################
+
+#Run stage 4 and 5 RUN3
+
+####################################################
+
+if [ "${DOSTAGE45RUN3}" = "true" ]; then
+
+  echo "Will execute stage4 and stage5 with the following parameters:"
+  echo "        RUNLIST=${RUNLIST} 
+        CALIBRATEDDATADIR=${CALIBRATEDDATADIR} 
+        STAGE45DATADIRRUN3 =${STAGE45DATADIRRUN3} 
+        SIZELOWERRUN3=${SIZELOWERRUN3} 
+        SIZEUPPERRUN3=${SIZEUPPERRUN3} 
+        CONFIGANDCUTSDIR=${CONFIGANDCUTSDIR}
+        STAGE4CUTSFILERUN3=${STAGE4CUTSFILERUN3} 
+        STAGE4CONFIGFILERUN3=${STAGE4CONFIGFILERUN3} 
+        LOOKUPTABLERUN3=${LOOKUPTABLERUN3} 
+        LOOKUPTABLEDIRRUN3=${LOOKUPTABLEDIRRUN3} 
+        STAGE5CUTSFILERUN3=${STAGE5CUTSFILERUN3} 
+        STAGE5CONFIGFILERUN3=${STAGE5CONFIGFILERUN3}
+        QUEUE=${QUEUE}
+        SCRATCH=${SCRATCH}
+        ROOTSYS=${ROOTSYS} 
+        VEGASBASE=${VEGASBASE}
+        DBSERVER=${DBSERVER}
+        DELETEOLDSTAGE45RUN3=${DELETEOLDSTAGE45RUN3}
+		CUTBADTIMESRUN3=${CUTBADTIMESRUN3}
+        MC=${MC} 
+        MCNOISELVL=${MCNOISELVL} 
+        MCRUNLIST=${MCRUNLIST}
+        "
+
+
+  if [[ "${DELETEOLDSTAGE45RUN3}" == "true"  && ! "${MC}" == "true" ]]; then
+      echo "deleting maybe existing stage4/5 output, may take a while ... "
+      rm -r ${STAGE45DATADIRRUN3}/d*
+  elif [[ "${DELETEOLDSTAGE45RUN3}" == "true" && "${MC}" == "true" ]]; then
+      echo "deleting maybe existing stage4/5 output, may take a while ... "
+      rm -r ${STAGE45DATADIRRUN3}/MC/*
+  fi
+
+
+
+  ${SCRIPTDIR}/prepare_stage4_5.sh ${RUNLIST} ${CALIBRATEDDATADIR} ${STAGE45DATADIRRUN3} ${SIZELOWERRUN3} ${SIZEUPPERRUN3} ${CONFIGANDCUTSDIR}/${STAGE4CUTSFILERUN3} ${CONFIGANDCUTSDIR}/${STAGE4CONFIGFILERUN3} ${LOOKUPTABLERUN3} ${LOOKUPTABLEDIRRUN3} ${CONFIGANDCUTSDIR}/${STAGE5CUTSFILERUN3} ${CONFIGANDCUTSDIR}/${STAGE5CONFIGFILERUN3}  ${SCRATCH} ${QUEUE} ${ROOTSYS} ${VEGASBASE} ${DBSERVER} ${SCRIPTDIR} ${CUTBADTIMESRUN3} ${MC} ${MCNOISELVL} ${MCRUNLIST}
+
+fi
+####################################################
+####################################################
+
+#Run stage 6 RUN1
+
+####################################################
+
+if [ "${DOSTAGE6RUN1}" = "true" ]; then
+
+  echo "Will execute stage6 with the following parameters:"
+  echo "        RUNLIST=${RUNLIST} 
+        STAGE45DATADIRRUN1 =${STAGE45DATADIRRUN1}
+        STAGE6DATADIRRUN1=${STAGE6DATADIRRUN1}
+        CONFIGANDCUTSDIR=${CONFIGANDCUTSDIR}
+        STAGE6CUTSFILERUN1=${STAGE6CUTSFILERUN1} 
+        STAGE6CONFIGFILERUN1=${STAGE6CONFIGFILERUN1} 
+        STAGE6OUTNAMERUN1=${STAGE6OUTNAMERUN1}
+        MSWRUN1=${MSWRUN1}
+        MSLRUN1=${MSLRUN1}
+        SHOWERMAXRUN1=${SHOWERMAXRUN1}
+        THETASQRRUN1=${THETASQRRUN1}
+        EAFILERUN1=${EAFILERUN1}
+        QUEUE=${QUEUE}
+        SCRATCH=${SCRATCH}
+        ROOTSYS=${ROOTSYS} 
+        VEGASBASE=${VEGASBASE}
+        DELETEOLDSTAGE6RUN1=${DELETEOLDSTAGE6RUN1}
+        DBSERVER=${DBSERVER}
+        "
+
+  if [ "${DELETEOLDSTAGE6RUN1}" = "true" ]; then
+      echo "deleting maybe existing stage6 output, may take a while ... "
+      rm -r ${STAGE6DATADIRRUN1}/*
+  fi
+
+  ${SCRIPTDIR}/prepare_stage6.sh ${RUNLIST} ${STAGE6OUTNAMERUN1} ${STAGE6DATADIRRUN1} ${CONFIGANDCUTSDIR}/${STAGE6CONFIGFILERUN1}  ${CONFIGANDCUTSDIR}/${STAGE6CUTSFILERUN1}  ${STAGE45DATADIRRUN1} ${MSWRUN1} ${MSLRUN1} ${SHOWERMAXRUN1} ${THETASQRRUN1} ${EAFILERUN1} ${SCRATCH} ${QUEUE} ${ROOTSYS} ${VEGASBASE} ${DBSERVER} ${SCRIPTDIR} 
+
+fi
+
+####################################################
+
+#Run stage 6 RUN2
+
+####################################################
+
+if [ "${DOSTAGE6RUN2}" = "true" ]; then
+
+  echo "Will execute stage6 with the following parameters:"
+  echo "        RUNLIST=${RUNLIST} 
+        STAGE45DATADIRRUN2 =${STAGE45DATADIRRUN2}
+        STAGE6DATADIRRUN2=${STAGE6DATADIRRUN2}
+        CONFIGANDCUTSDIR=${CONFIGANDCUTSDIR}
+        STAGE6CUTSFILERUN2=${STAGE6CUTSFILERUN2} 
+        STAGE6CONFIGFILERUN2=${STAGE6CONFIGFILERUN2} 
+        STAGE6OUTNAMERUN2=${STAGE6OUTNAMERUN2}
+        MSWRUN2=${MSWRUN2}
+        MSLRUN2=${MSLRUN2}
+        SHOWERMAXRUN2=${SHOWERMAXRUN2}
+        THETASQRRUN2=${THETASQRRUN2}
+        EAFILERUN2=${EAFILERUN2}
+        QUEUE=${QUEUE}
+        SCRATCH=${SCRATCH}
+        ROOTSYS=${ROOTSYS} 
+        VEGASBASE=${VEGASBASE}
+        DELETEOLDSTAGE6RUN2=${DELETEOLDSTAGE6RUN2}
+        DBSERVER=${DBSERVER}
+        "
+
+  if [ "${DELETEOLDSTAGE6RUN2}" = "true" ]; then
+      echo "deleting maybe existing stage6 output, may take a while ... "
+      rm -r ${STAGE6DATADIRRUN2}/*
+  fi
+
+  ${SCRIPTDIR}/prepare_stage6.sh ${RUNLIST} ${STAGE6OUTNAMERUN2} ${STAGE6DATADIRRUN2} ${CONFIGANDCUTSDIR}/${STAGE6CONFIGFILERUN2}  ${CONFIGANDCUTSDIR}/${STAGE6CUTSFILERUN2}  ${STAGE45DATADIRRUN2} ${MSWRUN2} ${MSLRUN2} ${SHOWERMAXRUN2} ${THETASQRRUN2} ${EAFILERUN2} ${SCRATCH} ${QUEUE} ${ROOTSYS} ${VEGASBASE} ${DBSERVER} ${SCRIPTDIR}
+
+fi
+
+
+
+####################################################
+####################################################
+
+#Run stage 6 RUN3
+
+####################################################
+
+if [ "${DOSTAGE6RUN3}" = "true" ]; then
+
+  echo "Will execute stage6 with the following parameters:"
+  echo "        RUNLIST=${RUNLIST} 
+        STAGE45DATADIRRUN3 =${STAGE45DATADIRRUN3}
+        STAGE6DATADIRRUN3=${STAGE6DATADIRRUN3}
+        CONFIGANDCUTSDIR=${CONFIGANDCUTSDIR}
+        STAGE6CUTSFILERUN3=${STAGE6CUTSFILERUN3} 
+        STAGE6CONFIGFILERUN3=${STAGE6CONFIGFILERUN3} 
+        STAGE6OUTNAMERUN3=${STAGE6OUTNAMERUN3}
+        MSWRUN3=${MSWRUN3}
+        MSLRUN3=${MSLRUN3}
+        SHOWERMAXRUN3=${SHOWERMAXRUN3}
+        THETASQRRUN3=${THETASQRRUN3}
+        EAFILERUN3=${EAFILERUN3}
+        QUEUE=${QUEUE}
+        SCRATCH=${SCRATCH}
+        ROOTSYS=${ROOTSYS} 
+        VEGASBASE=${VEGASBASE}
+        DELETEOLDSTAGE6RUN3=${DELETEOLDSTAGE6RUN3}
+        DBSERVER=${DBSERVER}
+        "
+
+  if [ "${DELETEOLDSTAGE6RUN3}" = "true" ]; then
+      echo "deleting maybe existing stage6 output, may take a while ... "
+      rm -r ${STAGE6DATADIRRUN3}/*
+  fi
+
+  ${SCRIPTDIR}/prepare_stage6.sh ${RUNLIST} ${STAGE6OUTNAMERUN3}  ${STAGE6DATADIRRUN3} ${CONFIGANDCUTSDIR}/${STAGE6CONFIGFILERUN3}  ${CONFIGANDCUTSDIR}/${STAGE6CUTSFILERUN3}  ${STAGE45DATADIRRUN3} ${MSWRUN3} ${MSLRUN3} ${SHOWERMAXRUN3} ${THETASQRRUN3} ${EAFILERUN3} ${SCRATCH} ${QUEUE} ${ROOTSYS} ${VEGASBASE} ${DBSERVER} ${SCRIPTDIR}
+
+fi
+
+
+
+#####################################################
+
+echo " Done everything you asked me to do .... go become famous then! "
